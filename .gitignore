@@ -1,6 +1,36 @@
-# Compiler files
+# Dependencies
+node_modules/
+lib/
 cache/
 out/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Foundry
+forge-std/
+ds-test/
+cache/
+broadcast/
+
+# Build
+dist/
+build/
+
+# Misc
+.DS_Store
+*.log
+coverage/
+coverage.json
+gas-report.txt
 
 # Ignores development broadcast logs
 !/broadcast
