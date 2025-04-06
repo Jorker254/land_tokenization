@@ -34,7 +34,7 @@ contract LandMarketplace is ReentrancyGuard {
         listings[tokenId] = Listing(msg.sender, price, true, block.timestamp);
         activeListings.push(tokenId);
         listingIndex[tokenId] = activeListings.length - 1;
-        
+
         emit LandListed(tokenId, msg.sender, price);
     }
 
@@ -44,7 +44,7 @@ contract LandMarketplace is ReentrancyGuard {
         require(msg.value == listing.price, "Incorrect price");
 
         _removeListing(tokenId);
-        
+
         address seller = listing.seller;
         uint256 price = listing.price;
         listing.isActive = false;
@@ -61,7 +61,7 @@ contract LandMarketplace is ReentrancyGuard {
 
         _removeListing(tokenId);
         delete listings[tokenId];
-        
+
         emit ListingCancelled(tokenId);
     }
 
@@ -69,14 +69,10 @@ contract LandMarketplace is ReentrancyGuard {
         return activeListings;
     }
 
-    function getActiveListing(uint256 tokenId) 
-        public 
-        view 
-        returns (
-            address seller,
-            uint256 price,
-            uint256 listingDate
-        ) 
+    function getActiveListing(uint256 tokenId)
+        public
+        view
+        returns (address seller, uint256 price, uint256 listingDate)
     {
         Listing memory listing = listings[tokenId];
         require(listing.isActive, "Listing not active");

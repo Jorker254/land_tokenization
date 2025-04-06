@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/access/IAccessControl.sol";
 contract LandTokenizationTest is Test {
     LandToken public landToken;
     LandMarketplace public marketplace;
-    
+
     address public admin = makeAddr("admin");
     address public seller = makeAddr("seller");
     address public buyer = makeAddr("buyer");
@@ -17,11 +17,7 @@ contract LandTokenizationTest is Test {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
     event LandTokenMinted(
-        uint256 indexed tokenId,
-        string titleDeedNumber,
-        address indexed owner,
-        string latitude,
-        string longitude
+        uint256 indexed tokenId, string titleDeedNumber, address indexed owner, string latitude, string longitude
     );
 
     event LandListed(uint256 indexed tokenId, address seller, uint256 price);
@@ -60,7 +56,7 @@ contract LandTokenizationTest is Test {
 
     function testMintLandToken() public {
         vm.startPrank(admin);
-        
+
         string[] memory polygonCoordinates = new string[](4);
         polygonCoordinates[0] = "-1.2345,6.7890";
         polygonCoordinates[1] = "-1.2346,6.7891";
@@ -69,7 +65,7 @@ contract LandTokenizationTest is Test {
 
         vm.expectEmit(true, true, false, true);
         emit LandTokenMinted(0, "DEED123", seller, "-1.2345", "6.7890");
-        
+
         uint256 tokenId = landToken.mintLandToken(
             seller,
             "DEED123",
@@ -93,20 +89,16 @@ contract LandTokenizationTest is Test {
         assertEq(details.area, 1000);
         assertEq(details.ownerName, "John Doe");
         assertEq(details.isVerified, false);
-        
+
         vm.stopPrank();
     }
 
     function test_RevertWhen_MintingWithoutRole() public {
         string[] memory polygonCoordinates = new string[](4);
-        
+
         vm.startPrank(seller);
         vm.expectRevert(
-            abi.encodeWithSelector(
-                IAccessControl.AccessControlUnauthorizedAccount.selector,
-                seller,
-                MINTER_ROLE
-            )
+            abi.encodeWithSelector(IAccessControl.AccessControlUnauthorizedAccount.selector, seller, MINTER_ROLE)
         );
         landToken.mintLandToken(
             seller,
@@ -131,26 +123,26 @@ contract LandTokenizationTest is Test {
         // List token
         vm.startPrank(seller);
         landToken.approve(address(marketplace), tokenId);
-        
+
         vm.expectEmit(true, false, false, true);
         emit LandListed(tokenId, seller, 1 ether);
-        
+
         marketplace.listLand(tokenId, 1 ether);
         vm.stopPrank();
 
         // Buy token
         vm.deal(buyer, 1 ether);
         vm.startPrank(buyer);
-        
+
         vm.expectEmit(true, false, false, true);
         emit LandSold(tokenId, seller, buyer, 1 ether);
-        
+
         marketplace.buyLand{value: 1 ether}(tokenId);
-        
+
         assertEq(landToken.ownerOf(tokenId), buyer);
         assertEq(buyer.balance, 0);
         assertEq(seller.balance, 1 ether);
-        
+
         vm.stopPrank();
     }
 
@@ -163,7 +155,7 @@ contract LandTokenizationTest is Test {
         marketplace.listLand(tokenId, 1 ether);
         marketplace.cancelListing(tokenId);
         vm.stopPrank();
-        
+
         // Try to buy cancelled listing
         vm.deal(buyer, 1 ether);
         vm.startPrank(buyer);
@@ -200,7 +192,7 @@ contract LandTokenizationTest is Test {
 
     function testGeographicalFeatures() public {
         vm.startPrank(admin);
-        
+
         string[] memory polygonCoordinates = new string[](4);
         polygonCoordinates[0] = "-1.2345,6.7890";
         polygonCoordinates[1] = "-1.2346,6.7891";
@@ -223,7 +215,7 @@ contract LandTokenizationTest is Test {
         );
 
         LandToken.LandDetails memory details = landToken.getLandDetails(tokenId);
-        
+
         assertEq(details.geoLocation.latitude, "-1.2345");
         assertEq(details.geoLocation.longitude, "6.7890");
         assertEq(details.geoLocation.polygonCoordinates.length, 4);
@@ -238,10 +230,10 @@ contract LandTokenizationTest is Test {
         newPolygonCoordinates[4] = "-1.2345,6.7890";
 
         landToken.updateLandBoundary(tokenId, newPolygonCoordinates);
-        
+
         details = landToken.getLandDetails(tokenId);
         assertEq(details.geoLocation.polygonCoordinates.length, 5);
-        
+
         vm.stopPrank();
     }
 }

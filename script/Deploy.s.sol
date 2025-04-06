@@ -10,7 +10,7 @@ contract Deploy is Script {
         // Use the first Anvil account
         uint256 deployerPrivateKey = 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80;
         address deployer = 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266;
-        
+
         vm.startBroadcast(deployerPrivateKey);
 
         // Deploy LandToken
@@ -18,9 +18,7 @@ contract Deploy is Script {
         console.log("LandToken deployed at:", address(landToken));
 
         // Deploy Marketplace
-        LandMarketplace marketplace = new LandMarketplace(
-            address(landToken)
-        );
+        LandMarketplace marketplace = new LandMarketplace(address(landToken));
         console.log("LandMarketplace deployed at:", address(marketplace));
 
         // Mint initial test token to deployer
@@ -31,7 +29,7 @@ contract Deploy is Script {
         polygonCoordinates[3] = "-1.2345,6.7890";
 
         landToken.mintLandToken(
-            deployer,  // Mint to deployer
+            deployer, // Mint to deployer
             "DEED001",
             "123 Test Street",
             1000,

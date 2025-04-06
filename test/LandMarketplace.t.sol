@@ -8,7 +8,7 @@ import "../src/LandMarketplace.sol";
 contract LandMarketplaceTest is Test {
     LandToken public landToken;
     LandMarketplace public marketplace;
-    
+
     address public admin = makeAddr("admin");
     address public seller = makeAddr("seller");
     address public buyer = makeAddr("buyer");
@@ -53,26 +53,26 @@ contract LandMarketplaceTest is Test {
         // List token
         vm.startPrank(seller);
         landToken.approve(address(marketplace), tokenId);
-        
+
         vm.expectEmit(true, false, false, true);
         emit LandListed(tokenId, seller, 1 ether);
-        
+
         marketplace.listLand(tokenId, 1 ether);
         vm.stopPrank();
 
         // Buy token
         vm.deal(buyer, 1 ether);
         vm.startPrank(buyer);
-        
+
         vm.expectEmit(true, false, false, true);
         emit LandSold(tokenId, seller, buyer, 1 ether);
-        
+
         marketplace.buyLand{value: 1 ether}(tokenId);
-        
+
         assertEq(landToken.ownerOf(tokenId), buyer);
         assertEq(buyer.balance, 0);
         assertEq(seller.balance, 1 ether);
-        
+
         vm.stopPrank();
     }
 
