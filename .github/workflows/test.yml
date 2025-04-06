@@ -2,7 +2,9 @@ name: CI
 
 on:
   push:
+    branches: [ master ]
   pull_request:
+    branches: [ master ]
   workflow_dispatch:
 
 env:
@@ -26,6 +28,10 @@ jobs:
       - name: Show Forge version
         run: |
           forge --version
+
+      - name: Install Dependencies
+        run: |
+          forge install
 
       - name: Run Forge fmt
         run: |
