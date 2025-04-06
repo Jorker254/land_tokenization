@@ -1,79 +1,100 @@
-# Land Tokenization Project
+# Kenya Land Tokenization Platform
 
-A decentralized platform for tokenizing land ownership using NFTs (ERC721) on the Ethereum blockchain. This project enables the digitization of land records, transparent ownership transfers, and a marketplace for land trading.
+A blockchain-based platform for land tokenization in Kenya, enabling secure, transparent, and efficient land transactions.
 
-## Features
+## Overview
 
-- **Land Tokenization**: Convert physical land parcels into NFTs
-- **Geographic Data**: Store land coordinates and boundaries
-- **Ownership History**: Track land ownership transfers
-- **Marketplace**: Buy and sell land tokens
-- **Verification System**: Authorized verification of land parcels
-- **Location-based Search**: Query lands by location
+This project implements a comprehensive land tokenization system for Kenya, featuring:
+
+- Land tokenization as ERC721 NFTs
+- Enhanced land information storage
+- Marketplace for land transactions
+- Support for auctions, escrow, and fractional ownership
+- Compliance with Kenyan land laws
 
 ## Smart Contracts
 
-### 1. LandToken.sol
-The core contract that handles land tokenization and management.
+### Core Contracts
 
-**Key Features:**
-- ERC721 NFT implementation
-- Detailed land information storage
-- Ownership history tracking
-- Geographic data management
-- Role-based access control
+1. **LandToken.sol**
+   - ERC721-based land token
+   - Stores land metadata and ownership information
+   - Implements Kenyan land registration requirements
 
-**Land Details Include:**
-- Title deed information
-- Geographic coordinates
-- Land boundaries
-- Ownership history
-- Property details
-- Legal information
-- Verification status
+2. **EnhancedLandInfo.sol**
+   - Stores detailed land information
+   - 3D coordinates and elevation data
+   - Zoning and environmental information
+   - Access control for authorized updates
 
-### 2. LandMarketplace.sol
-A marketplace contract for trading land tokens.
+3. **KenyaLandMarketplace.sol**
+   - Land trading platform
+   - Auction system
+   - Escrow service
+   - Fractional ownership
+   - Lease management
 
-**Key Features:**
-- List land tokens for sale
-- Purchase land tokens
-- Price management
-- Transaction security
+## Features
 
-## Technical Stack
+### Land Tokenization
+- Unique land parcels as NFTs
+- Detailed metadata storage
+- Ownership tracking
+- Transfer restrictions
 
-- **Framework**: Foundry
-- **Solidity Version**: 0.8.20
-- **Dependencies**:
-  - OpenZeppelin Contracts
-  - Foundry Standard Library
+### Enhanced Land Information
+- 3D coordinates and elevation
+- Zoning information
+- Environmental data
+- Historical records
 
-## Project Structure
+### Marketplace Features
+- **Auctions**
+  - Duration: 1-30 days
+  - Automatic bid refunds
+  - Registrar approval
+  - Early termination option
 
-```
-├── src/                    # Source contracts
-│   ├── LandToken.sol      # Main land tokenization contract
-│   └── LandMarketplace.sol # Marketplace contract
-├── test/                   # Test files
-├── script/                 # Deployment scripts
-├── lib/                    # Dependencies
-└── foundry.toml           # Foundry configuration
-```
+- **Escrow**
+  - 7-day escrow period
+  - Buyer and seller protection
+  - Registrar approval
+  - Automatic refunds
+
+- **Fractional Ownership**
+  - Customizable shares
+  - Share price setting
+  - Share tracking
+  - Registrar approval
+
+- **Leasing**
+  - Duration: 30 days to 99 years
+  - Monthly rent tracking
+  - Security deposits
+  - Registrar approval
+
+## Security Features
+
+- Access control for admin and registrar roles
+- Reentrancy protection
+- Secure token transfers
+- Input validation
+- Compliance with Kenyan land laws
 
 ## Getting Started
 
 ### Prerequisites
 
-- [Foundry](https://book.getfoundry.sh/getting-started/installation)
-- Node.js (for additional tooling)
+- Node.js (v16 or later)
+- Foundry
+- Git
 
 ### Installation
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/Jorker254/land_tokenization.git
-cd land_tokenization
+git clone https://github.com/your-username/kenya-land-tokenization.git
+cd kenya-land-tokenization
 ```
 
 2. Install dependencies:
@@ -81,37 +102,29 @@ cd land_tokenization
 forge install
 ```
 
-3. Build the project:
+3. Compile contracts:
 ```bash
 forge build
 ```
 
-### Testing
-
-Run the test suite:
+4. Run tests:
 ```bash
 forge test
 ```
 
-### Deployment
+## Testing
 
-1. Configure your environment variables in `.env`:
-```
-RPC_URL=your_rpc_url
-PRIVATE_KEY=your_private_key
-```
+The project includes comprehensive test coverage:
 
-2. Deploy the contracts:
 ```bash
-forge script script/Deploy.s.sol --rpc-url $RPC_URL --private-key $PRIVATE_KEY
+forge test --match-path test/LandToken.t.sol -vv
+forge test --match-path test/EnhancedLandInfo.t.sol -vv
+forge test --match-path test/KenyaLandMarketplace.t.sol -vv
 ```
 
-## Security
+## License
 
-- Role-based access control for sensitive operations
-- Pausable functionality for emergency stops
-- Comprehensive test coverage
-- Reentrancy protection
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Contributing
 
@@ -121,10 +134,6 @@ forge script script/Deploy.s.sol --rpc-url $RPC_URL --private-key $PRIVATE_KEY
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 ## Contact
 
-For any questions or suggestions, please open an issue in the repository.
+For questions or support, please contact [your-email@example.com]
