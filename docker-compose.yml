@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_ANVIL_RPC_URL=http://anvil:8545
+    depends_on:
+      - anvil
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - land-tokenization
+
+  anvil:
+    image: ghcr.io/foundry-rs/foundry:latest
+    command: anvil --host 0.0.0.0
+    ports:
+      - "8545:8545"
+    networks:
+      - land-tokenization
+
+networks:
+  land-tokenization:
+    driver: bridge 
